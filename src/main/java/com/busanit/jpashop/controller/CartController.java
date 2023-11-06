@@ -85,6 +85,18 @@ public class CartController {
     }
 
     // DELETE : 장바구니에서 제거
+    @DeleteMapping("/cartItem/{cartItemId}")
+    @ResponseBody
+    public ResponseEntity deleteCartItem(@PathVariable("cartItemId") Long cartItemId, Principal principal) {
+
+        // 유효성 검증 예외처리
+        if (!cartService.validateCartItem(cartItemId, principal.getName())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다.");
+        }
+        
+        cartService.deleteCartItem(cartItemId);
+        return ResponseEntity.status(HttpStatus.OK).body(cartItemId);
+    }
 
     // CREATE ALL : 장바구니에 담긴 상품 한꺼번에 주문
 

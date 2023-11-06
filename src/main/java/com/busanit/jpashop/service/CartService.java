@@ -97,7 +97,14 @@ public class CartService {
             return false;
         }
     }
-        // if (member.getEmail().equals(cartMember.getEmail())) {
+
+    public void deleteCartItem(Long cartItemId) {
+        // Id로 조회한다.
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
+
+        // 삭제한다.
+        cartItemRepository.delete(cartItem);
+    }
 
 
 }

@@ -68,14 +68,20 @@ public class CartController {
     // UPDATE : 장바구니 수량 변경
     @PatchMapping("/cartItem/{cartItemId}")
     @ResponseBody
-    public ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, int count) {
+    public ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, @RequestParam int count, Principal principal) {
+
         // 예외처리
+        if(count <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("최소 1개 이상 담아주세요.");
+        } else if (!cartService.validateCartItem(cartItemId, principal.getName())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다.");
+        }
+
 
         // 서비스 계층에 위임
         cartService.updateCartItem(cartItemId, count);
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(cartItemId);
     }
 
     // DELETE : 장바구니에서 제거

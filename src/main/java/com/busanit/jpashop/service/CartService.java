@@ -69,4 +69,14 @@ public class CartService {
         // 장바구니 상품 조회하기 => dto 목록으로 리턴
         return cartItemRepository.findCartDetailDtoList(cart.getId());
     }
+
+    public void updateCartItem(Long cartItemId, int count) {
+        // 장바구니 상품 영속성 객체 조회 
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
+        
+        // 수량 변경 => 변경 감지 => (트랜잭션 종료시) DB 반영
+        // cartItem.setCount(count);
+        // 변경로직을 엔티티에 위임
+        cartItem.updateCount(count);
+    }
 }

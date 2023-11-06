@@ -11,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -69,6 +66,17 @@ public class CartController {
     }
 
     // UPDATE : 장바구니 수량 변경
+    @PatchMapping("/cartItem/{cartItemId}")
+    @ResponseBody
+    public ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, int count) {
+        // 예외처리
+
+        // 서비스 계층에 위임
+        cartService.updateCartItem(cartItemId, count);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 
     // DELETE : 장바구니에서 제거
 

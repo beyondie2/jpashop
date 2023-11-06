@@ -2,6 +2,8 @@ package com.busanit.jpashop.service;
 
 import com.busanit.jpashop.dto.CartDetailDto;
 import com.busanit.jpashop.dto.CartItemDto;
+import com.busanit.jpashop.dto.CartOrderDto;
+import com.busanit.jpashop.dto.OrderDto;
 import com.busanit.jpashop.entity.Cart;
 import com.busanit.jpashop.entity.CartItem;
 import com.busanit.jpashop.entity.Item;
@@ -28,6 +30,7 @@ public class CartService {
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final OrderService orderService;
 
     public Long addCart(CartItemDto cartItemDto, String email) {
         // 회원정보 조회
@@ -106,5 +109,30 @@ public class CartService {
         cartItemRepository.delete(cartItem);
     }
 
+    // 장바구니 상품 주문
+    public Long orderCartItem(List<CartOrderDto> cartOrderDtoList, String email) {
+        List<OrderDto> orderDtoList = new ArrayList<>();
 
+        for (CartOrderDto cartOrderDto : cartOrderDtoList) {
+            // 목록에서 장바구니 상품 조회
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId()).orElseThrow(EntityNotFoundException::new);
+
+            // 주문 DTO 목록 생성
+            OrderDto orderDto = new OrderDto();
+            orderDto.setItemId(cartItem.getItem().getId());
+            orderDto.setCount(cartItem.getCount());
+            orderDtoList.add(orderDto);
+        }
+
+        // 주문 서비스 계층에 주문 위임
+        Long orderId = orderService.orders(orderDtoList, email);
+
+        // 주문 완료된 내역 장바구니 아이템 삭제 (비우기)
+        for (CartOrderDto cartOrderDto : cartOrderDtoList) {
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId()).orElseThrow(EntityNotFoundException::new);
+            cartItemRepository.delete(cartItem);
+        }
+
+        return orderId;
+    }
 }

@@ -149,6 +149,53 @@
           }
         });
       }
+
+      // 장바구니 주문 API 요청
+      function orders() {
+        const token = document
+          .querySelector("meta[name='_csrf']")
+          .getAttribute('content');
+        const csrfHeader = document
+          .querySelector("meta[name='_csrf_header']")
+          .getAttribute('content');
+
+        const url = `/cart/orders`;
+
+        var dataList = new Array();
+        var paramData = new Object();
+        // { cartOrderDtoList : [ { cartItemId : }, {}, {} ... ] }
+        const checkBoxs = document.querySelectorAll(
+          'input[name=cartChkBox]:checked'
+        );
+
+        checkBoxs.forEach((checkBox) => {
+          const cartItemId = checkBox.value;
+          let data = {};
+          data['cartItemId'] = cartItemId;
+          dataList.push(data);
+        });
+
+        paramData['cartOrderDtoList'] = dataList;
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            [csrfHeader]: token,
+          },
+          body: JSON.stringify(paramData),
+        }).then((response) => {
+          console.log(response);
+          if (response.ok) {
+            console.log('성공적으로 주문이 완료되었습니다.');
+            location.href = '/orders';
+          } else if (response.status === 401) {
+            alert('로그인 후 주문 이용해주세요.');
+            location.href = 'member/login';
+          } else {
+            response.text().then((message) => alert(message));
+          }
+        });
+      }
     </script>
   </th:block>
 

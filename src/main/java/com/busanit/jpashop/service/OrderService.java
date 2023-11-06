@@ -80,4 +80,27 @@ public class OrderService {
         order.cancelOrder();
 
     }
+
+    // 장바구니 상품 목록(여러개 주문)
+    public Long orders(List<OrderDto> orderDtoList, String email) {
+
+        // 주문 상품 리스트 만들기
+        List<OrderItem> orderItemList = new ArrayList<>();
+        for (OrderDto orderDto : orderDtoList) {
+            // 상품 조회
+            Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
+            // 주문 상품 만들기
+            OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
+            orderItemList.add(orderItem);
+        }
+
+        // 회원정보조회
+        Member member = memberRepository.findByEmail(email);
+
+        // 주문 엔티티 생성
+        Order order = Order.createOrder(member, orderItemList);
+        orderRepository.save(order);
+
+        return order.getId();
+    }
 }

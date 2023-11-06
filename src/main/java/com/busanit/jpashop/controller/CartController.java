@@ -2,6 +2,7 @@ package com.busanit.jpashop.controller;
 
 import com.busanit.jpashop.dto.CartDetailDto;
 import com.busanit.jpashop.dto.CartItemDto;
+import com.busanit.jpashop.dto.CartOrderDto;
 import com.busanit.jpashop.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -99,5 +100,22 @@ public class CartController {
     }
 
     // CREATE ALL : 장바구니에 담긴 상품 한꺼번에 주문
+    @PostMapping("/cart/orders")
+    @ResponseBody
+    public ResponseEntity orderCartItem(@RequestBody CartOrderDto cartOrderDto, Principal principal) {
+        List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
 
+        // 예외처리
+        if(cartOrderDtoList == null || cartOrderDtoList.size() == 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문할 상품 선택해주세요.");
+        }
+        // 유효성 검증 예외처리
+        if (!cartService.validateCartItem(cartOrderDto.getCartItemId(), principal.getName())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다.");
+        }
+        
+        // 서비스 계층 위임 : 장바구니주문상품목록, 로그인정보
+        Long orderId = cartService.orderCartItem(cartOrderDtoList, principal.getName());
+        return ResponseEntity.status(HttpStatus.OK).body(orderId);
+    }
 }

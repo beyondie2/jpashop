@@ -1,5 +1,6 @@
 package com.busanit.jpashop.service;
 
+import com.busanit.jpashop.dto.CartDetailDto;
 import com.busanit.jpashop.dto.CartItemDto;
 import com.busanit.jpashop.entity.Cart;
 import com.busanit.jpashop.entity.CartItem;
@@ -13,6 +14,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +52,21 @@ public class CartService {
         cartItemRepository.save(cartItem);
 
         return cartItem.getId(); // 장바구니상품 아이디 반환
+    }
+
+    @Transactional(readOnly = true)
+    public List<CartDetailDto> getCartList(String email) {
+        // 장바구니
+        Member member = memberRepository.findByEmail(email);
+        Cart cart = cartRepository.findByMemberId(member.getId());
+
+        List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
+        // 장바구니가 없을 경우 빈 페이지를 반환
+        if (cart == null) {
+            return cartDetailDtoList;
+        }
+
+        // 장바구니 상품 조회하기 => dto 목록으로 리턴
+        return cartItemRepository.findCartDetailDtoList(cart.getId());
     }
 }

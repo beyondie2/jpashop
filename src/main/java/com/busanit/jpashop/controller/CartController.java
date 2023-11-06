@@ -1,5 +1,6 @@
 package com.busanit.jpashop.controller;
 
+import com.busanit.jpashop.dto.CartDetailDto;
 import com.busanit.jpashop.dto.CartItemDto;
 import com.busanit.jpashop.service.CartService;
 import jakarta.validation.Valid;
@@ -7,8 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,6 +57,21 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.OK).body(cartItemId);
     }
 
+    // READ : 장바구니 페이지
+    @GetMapping("/cart")
+    public String cartList(Model model, Principal principal) {
+        // 서비스 계층에 위임
+        String email = principal.getName();
+        List<CartDetailDto> cartDetailDtoList = cartService.getCartList(email);
+        // 모델에 뷰로 전달
+        model.addAttribute("cartItems", cartDetailDtoList);
+        return "cart/cartList";
+    }
 
+    // UPDATE : 장바구니 수량 변경
+
+    // DELETE : 장바구니에서 제거
+
+    // CREATE ALL : 장바구니에 담긴 상품 한꺼번에 주문
 
 }

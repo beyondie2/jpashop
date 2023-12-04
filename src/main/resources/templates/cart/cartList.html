@@ -192,7 +192,9 @@
             alert('로그인 후 주문 이용해주세요.');
             location.href = 'member/login';
           } else {
-            response.text().then((message) => alert(message));
+            response.text().then((message) => {
+              alert(message);
+            });
           }
         });
       }

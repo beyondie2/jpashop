@@ -3,6 +3,7 @@ package com.busanit.jpashop.controller;
 import com.busanit.jpashop.dto.MemberDto;
 import com.busanit.jpashop.entity.Member;
 import com.busanit.jpashop.service.MemberService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,6 +43,7 @@ class MemberControllerTest {
     }
 
     @Test
+    @DisplayName("로그인 성공 테스트")
     void loginTest() throws Exception {
         // 회원 가입
         Member member = createMember("test@test.com", "1234");
@@ -55,6 +57,7 @@ class MemberControllerTest {
     }
 
     @Test
+    @DisplayName("로그인 실패 태스트")
     void loginTestFail() throws Exception {
         // 회원 가입
         Member member = createMember("test@test.com", "1234");

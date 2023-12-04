@@ -43,21 +43,20 @@
       <div class="carousel-inner">
         <div class="carousel-item active">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROq5TdbpF0ZmzWW3bb9gH7fSYJynOMY39mMJvk-9jcPQIzV4mSBrwxLOYvq9SQTb_In0w&usqp=CAU"
+            src="https://img.freepik.com/free-vector/hand-drawn-college-entrance-exam-illustration_23-2150349621.jpg"
+            alt="..."
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="https://img.freepik.com/free-vector/hand-drawn-college-entrance-exam-illustration_23-2150349621.jpg"
             class="d-block w-100"
             alt="..."
           />
         </div>
         <div class="carousel-item">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFyb1xtGHYmFoVxn9QWHLyO67sI_tUq8lMBi8N0htX8rFmYm-XT0H6jPTEqmLEfOtFSIg&usqp=CAU"
-            class="d-block w-100"
-            alt="..."
-          />
-        </div>
-        <div class="carousel-item">
-          <img
-            src="https://user-images.githubusercontent.com/13268420/112147492-1ab76200-8c20-11eb-8649-3d2f282c3c02.png"
+            src="https://img.freepik.com/free-vector/hand-drawn-college-entrance-exam-illustration_23-2150349621.jpg"
             class="d-block w-100"
             alt="..."
           />
@@ -88,20 +87,20 @@
       <th:block th:each="item, status :${items.getContent()}">
         <div class="col-md-4 margin">
           <div class="card">
-            <img
+            <!--img
               th:src="${item.imgUrl}"
               class="card-img-top"
               th:alt="${item.itemNm}"
-            />
+            /-->
             <div class="card-body">
               <h5 class="card-title" th:text="${item.itemNm}">Card title</h5>
               <p class="card-text" th:text="${item.itemDetail}">
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <h5 class="card-title" th:text="${item.price}">Card title</h5>
+              <!--h5 class="card-title" th:text="${item.price}">Card title</h5-->
               <a th:href="@{/item/{id}(id=${item.id})}" class="btn btn-primary"
-                >상세페이지</a
+                >연습 하기</a
               >
             </div>
           </div>

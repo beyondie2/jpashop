@@ -113,9 +113,14 @@ public class CartController {
         if (!cartService.validateCartItem(cartOrderDto.getCartItemId(), principal.getName())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다.");
         }
-        
+
         // 서비스 계층 위임 : 장바구니주문상품목록, 로그인정보
-        Long orderId = cartService.orderCartItem(cartOrderDtoList, principal.getName());
+        Long orderId = null;
+        try {
+            orderId = cartService.orderCartItem(cartOrderDtoList, principal.getName());
+        } catch (Exception e) {
+            new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(orderId);
     }
 }

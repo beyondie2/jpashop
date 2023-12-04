@@ -66,6 +66,9 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher("/images/**")).permitAll()
                         // 상품 경로는 모두 접근 가능
                         .requestMatchers(antMatcher("/item/**")).permitAll()
+                        // status 999 관련 이슈 (favicon, error 추가)
+                        .requestMatchers(antMatcher("/favicon.ico")).permitAll()
+                        .requestMatchers(antMatcher("/error")).permitAll()
                         // /admin/ 이후의 url은 ADMIN 역할만 접근 가능
                         .requestMatchers(antMatcher("/admin/**"))
                         .hasAnyRole("ADMIN")

@@ -108,7 +108,7 @@ class ItemRepositoryTest {
         // given
         createItemList();
         // when
-        List<Item> itemList = itemRepository.findByItemNmOrItemDetail("테스트 상품4", "상세정보8");
+        List<Item> itemList = itemRepository.findByItemNmOrItemDetail("테스트 상품4", "상세정보4");
         // then
         itemList.forEach(System.out::println);
         assertThat(itemList.get(0).getItemNm()).isEqualTo("테스트상품4");

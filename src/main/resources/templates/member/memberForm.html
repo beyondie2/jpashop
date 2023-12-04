@@ -21,8 +21,7 @@
          // thymeleaf 문법 : 데이터를 직접 넣고 싶을 때
         if (errorMessage) {
           alert(errorMessage);
-        }
-      });
+        }      });
     </script>
   </th:block>
 
@@ -93,13 +92,13 @@
           placeholder="주소를 입력해주세요"
         />
         <!-- 유효성 검증 에러메시지 -->
-        <ps
+        <p
           th:if="${#fields.hasErrors('address')}"
           th:errors="*{address}"
           class="fieldError"
         >
           에러메시지
-        </ps>
+        </p>
       </div>
       <button type="submit" class="btn btn-primary">회원가입</button>
       <!-- CSRF 토큰 -->

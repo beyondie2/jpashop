@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberServiceTest {
 
     @Autowired
-    static PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
     @Autowired
     MemberService memberService;
 
@@ -36,7 +36,7 @@ class MemberServiceTest {
         assertThat(savedMember.getRole()).isEqualTo(member.getRole());
     }
 
-    private static Member createMember() {
+    private Member createMember() {
         MemberDto memberDto = MemberDto.builder()
                 .email("test@test.com")
                 .name("홍길동")
@@ -45,6 +45,7 @@ class MemberServiceTest {
                 .build();
         Member member = Member.createMember(memberDto, passwordEncoder);
         return member;
+        //return null;
     }
 
     @Test

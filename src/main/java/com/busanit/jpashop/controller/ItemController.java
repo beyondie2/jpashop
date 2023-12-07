@@ -32,7 +32,7 @@ public class ItemController {
     @GetMapping("/admin/item/new")
     public String itemForm(Model model) {
         model.addAttribute("itemFormDto", new ItemFormDto());
-        return "/item/itemForm";
+        return "item/itemForm";
     }
 
     @PostMapping("/admin/item/new")
@@ -40,13 +40,13 @@ public class ItemController {
                           BindingResult bindingResult,                          @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList, Model model ) {
         // 유효성 검증 : 통과하지 못한 경우 폼으로
         if (bindingResult.hasErrors()) {
-            return "/item/itemForm";
+            return "item/itemForm";
         }
 
         // 상품 이미지 파일 1개를 필수적으로 넣는 유효성 검증 추가
         if (itemImgFileList.get(0).isEmpty()) {
             model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값입니다.");
-            return "/item/itemForm";
+            return "item/itemForm";
         }
 
         // 아이템 DB에 저장
@@ -78,7 +78,7 @@ public class ItemController {
 
         // 유효성 검증 : 통과하지 못한 경우 폼으로
         if (bindingResult.hasErrors()) {
-            return "/item/itemForm";
+            return "item/itemForm";
         }
         // 서비스 계층에 수정 비즈니스 로직 위임
         itemService.updateItem(itemFormDto, itemImgFileList);

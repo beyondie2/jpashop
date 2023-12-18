@@ -49,7 +49,7 @@ class ItemRepositoryTest {
         item.setItemNm("테스트 상품");
         item.setPrice(10000);
         item.setStockNumber(100);
-        item.setItemDetail("상세정보");
+        item.setItemDetail("상세정보(saveTest)");
         item.setItemSellStatus(ItemSellStatus.SELL);
         // when
         Item saved = itemRepository.save(item);
@@ -60,6 +60,7 @@ class ItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("상품명 조회 테스트")
     void findByItemTest() {
         // given
         this.createItemList();
@@ -80,7 +81,7 @@ class ItemRepositoryTest {
     void findByItemDetailTest() {
         // given
         this.createItemList();
-        String findItemDetail = "상세정보3";
+        String findItemDetail = "상세정보4";
 
         // when
         List<Item> itemList = itemRepository.findByItemDetail(findItemDetail);
@@ -130,7 +131,7 @@ class ItemRepositoryTest {
         // given
         this.createItemList();
         // when
-        List<Item> itemList = itemRepository.findByItemDetailNative("상");
+        List<Item> itemList = itemRepository.findByItemDetailNative("9");
         // then
         itemList.forEach(System.out::println);
 
